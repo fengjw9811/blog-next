@@ -1,13 +1,44 @@
 import '../styles/globals.css';
-import type { AppProps } from 'next/app';
 import Layout from 'components/Layout';
+import { StoreProvider } from 'store';
+import { NextPage } from 'next';
 
-function MyApp({ Component, pageProps }: AppProps) {
+interface IInitialValue {
+  userInfo: {userId: number, nickname: string, avatar: string}
+}
+interface IProps {
+  initialValue: IInitialValue
+  Component: NextPage,
+  pageProps: any
+}
+
+function MyApp({ initialValue, Component, pageProps }: IProps) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <StoreProvider initialValue={initialValue}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </StoreProvider>
   );
 }
+
+MyApp.getInitialProps = async ({ ctx }) => {
+  const cookies = ctx.req?.cookies
+  if(!cookies){
+    return {}
+  }
+  const {userId, nickname, avatar} = cookies
+    return {
+      initialValue: {
+        user: {
+          userInfo: {
+            userId,
+            nickname,
+            avatar,
+          },
+        },
+      },
+    };
+};
 
 export default MyApp;

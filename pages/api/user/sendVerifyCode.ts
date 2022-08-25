@@ -35,7 +35,6 @@ async function sendVerifyCode(req: NextApiRequest, res: NextApiResponse) {
       },
     }
   );
-  console.log(response);
   const { statusCode, statusMsg, templateSMS } = response as any;
   if (statusCode === '000000') {
     session.verifyCode = verifyCode;

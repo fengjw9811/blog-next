@@ -1,8 +1,10 @@
 import { ChangeEvent, useState } from 'react';
+import { observer } from 'mobx-react-lite';
 import styles from './index.module.scss';
 import CountDown from 'components/CountDown';
 import { message } from 'antd';
 import request from 'service/fetch';
+import { useStore } from 'store/index';
 
 interface IProps {
   isShow: boolean;
@@ -10,6 +12,7 @@ interface IProps {
 }
 
 const Login = (props: IProps) => {
+  const store = useStore();
   const { isShow = false, onClose } = props;
   const [form, setForm] = useState({
     phone: '',
@@ -41,7 +44,22 @@ const Login = (props: IProps) => {
       });
   };
 
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    request
+      .post('./api/user/login', {
+        ...form,
+        identity_type: 'phone',
+      })
+      .then((res: any) => {
+        if (res?.code === 0) {
+          store.user.setUserInfo(res?.data);
+          console.log(store);
+          onClose && onClose();
+        } else {
+          message.error(res?.msg || '未知错误');
+        }
+      });
+  };
 
   const handleOAuthGit = () => {};
 
@@ -104,4 +122,4 @@ const Login = (props: IProps) => {
   ) : null;
 };
 
-export default Login;
+export default observer(Login);
