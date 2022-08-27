@@ -53,7 +53,6 @@ const Login = (props: IProps) => {
       .then((res: any) => {
         if (res?.code === 0) {
           store.user.setUserInfo(res?.data);
-          console.log(store);
           onClose && onClose();
         } else {
           message.error(res?.msg || '未知错误');

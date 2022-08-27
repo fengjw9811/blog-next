@@ -1,4 +1,4 @@
-import { Button, Avatar, Dropdown, Menu } from 'antd';
+import { Button, Avatar, Dropdown, Menu, message } from 'antd';
 import { LoginOutlined, HomeOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -15,10 +15,16 @@ const Navbar = () => {
   const store = useStore();
   const { userId, avatar } = store.user.userInfo;
 
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
   const [isShowLogin, setIsShowLogin] = useState(false);
 
-  const handleGotoEditorPage = () => {};
+  const handleGotoEditorPage = () => {
+    if (userId) {
+      push('/editor/new');
+    } else {
+      message.warning('请先登录');
+    }
+  };
 
   const handleLogin = () => {
     setIsShowLogin(true);
@@ -28,10 +34,12 @@ const Navbar = () => {
     setIsShowLogin(false);
   };
 
-  const handleGotoPersonalPage = () => {};
+  const handleGotoPersonalPage = () => {
+    push(`/user/${userId}`);
+  };
 
   const handleLogout = () => {
-    request.post('/api/user/logout').then((res) => {
+    request.post('/api/user/logout').then((res: any) => {
       if (res.code === 0) {
         store.user.setUserInfo({});
       }

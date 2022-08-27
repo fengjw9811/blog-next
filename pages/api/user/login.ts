@@ -50,7 +50,7 @@ async function login(req: NextApiRequest, res: NextApiResponse) {
     } else {
       const user = new User();
       user.nickname = `用户_${Math.floor(Math.random() * 10000)}`;
-      user.avatar = './images/avatar.jpg';
+      user.avatar = '/images/avatar.jpg';
       user.job = '暂无';
       user.introduce = '暂无';
 

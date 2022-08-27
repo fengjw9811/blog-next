@@ -1,23 +1,29 @@
 import '../styles/globals.css';
 import Layout from 'components/Layout';
 import { StoreProvider } from 'store';
-import { NextPage } from 'next';
 
 interface IInitialValue {
   userInfo: {userId: number, nickname: string, avatar: string}
 }
 interface IProps {
   initialValue: IInitialValue
-  Component: NextPage,
+  Component: any,
   pageProps: any
 }
 
 function MyApp({ initialValue, Component, pageProps }: IProps) {
+  const renderLayout = () => {
+    if(Component.layout === null){
+      return <Component {...pageProps}/>
+    } else {
+      return (<Layout>
+        <Component {...pageProps} />
+      </Layout>)
+    }
+  }
   return (
     <StoreProvider initialValue={initialValue}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      {renderLayout()}
     </StoreProvider>
   );
 }
