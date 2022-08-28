@@ -1,3 +1,4 @@
+import { Comment } from 'db/entity';
 import { IronSession } from 'iron-session';
 
 export type ISession = IronSession & Record<string, any>;
@@ -18,4 +19,5 @@ export type IArticle = {
   update_time: Date,
   views: number,
   user: IUser,
+  comments: Pick<Comment>[],
 };

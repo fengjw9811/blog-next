@@ -13,4 +13,9 @@ export const EXCEPTION_ARTICLE = {
   },
 };
 
-export const EXCEPTION_USER = {};
+export const EXCEPTION_COMMENT = {
+  PUBLISH_FAILED: {
+    code: 4001,
+    msg: '发布失败',
+  },
+};

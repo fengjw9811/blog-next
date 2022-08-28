@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import { Input, Button, message } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
-import { useStore } from 'store';
 import styles from './index.module.scss';
 import '@uiw/react-markdown-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
@@ -42,8 +41,6 @@ export async function getServerSideProps({ params }: any) {
 
 function ModifyEditor(props: IProps) {
   const { articleDetail } = props;
-  const store = useStore();
-  const { userId } = store.user.userInfo;
   const { push, query } = useRouter();
   const articleId = Number(query.id);
   const [title, setTitle] = useState(articleDetail.title || '');
